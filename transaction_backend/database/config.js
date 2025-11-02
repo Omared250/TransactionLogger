@@ -1,12 +1,12 @@
 const { Pool } = require('pg');
+
 // PostgreSQL connection pool
-// Details are read from environment variables for security and flexibility.
 const pool = new Pool({
   user: process.env.POSTGRES_USER,
   host: process.env.POSTGRES_HOST, // This will be our K8s service name
   database: process.env.POSTGRES_DB,
   password: process.env.POSTGRES_PASSWORD,
-  port: 5432,
+  port: process.env.POSTGRES_PORT,
 });
 
 // Function to initialize the database table
@@ -29,5 +29,23 @@ const initializeDb = async () => {
     setTimeout(initializeDb, 5000);
   }
 };
+
+// Function to execute a SQL query
+// const executeQuery = async (query, params) => {
+//     try {
+//         const client = await pool.connect();
+//         let result;
+//         if (params) {
+//             result = await client.query(query, params); // Pass the parameters here if they exist
+//         } else {
+//             result = await client.query(query); // Execute query without parameters
+//         }
+//         client.release();
+//         return result;
+//     } catch (err) {
+//         console.error('Error executing query', err.stack);
+//         throw err;
+//     }
+// };
 
 module.exports = { initializeDb }
