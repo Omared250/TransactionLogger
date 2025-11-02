@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import { getUserId } from '../helper/userId';
 
 const baseURL = process.env.REACT_APP_API_URL;
 
@@ -11,6 +12,19 @@ if (!baseURL) {
 
 const transactionsApi = axios.create({
     baseURL: baseURL
+});
+
+transactionsApi.interceptors.request.use( config => {
+    // Get the user ID
+    const userId = getUserId();
+    
+    // Add it as a custom header to every request
+    config.headers = {
+        ...config.headers,
+        'x-user-id': userId
+    }
+
+    return config;
 });
 
 export default transactionsApi;
