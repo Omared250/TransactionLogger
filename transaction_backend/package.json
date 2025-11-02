@@ -1,0 +1,17 @@
+{
+  "name": "transaction_backend",
+  "version": "1.0.0",
+  "description": "It is a simple service that is used to do some tests on the monitoring and the deployment on kubernetes.",
+  "license": "ISC",
+  "author": "Omar Ascanio Arias",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  }
+}
