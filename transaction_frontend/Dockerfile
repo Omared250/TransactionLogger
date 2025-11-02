@@ -27,7 +27,7 @@ COPY --from=build /app/build /usr/share/nginx/html
 
 # Copy our custom Nginx configuration
 # This overwrites the default Nginx config
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
