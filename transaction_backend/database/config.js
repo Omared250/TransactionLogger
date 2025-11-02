@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+require('dotenv').config();
 
 // PostgreSQL connection pool
 const pool = new Pool({
@@ -13,6 +14,10 @@ const pool = new Pool({
 const initializeDb = async () => {
   try {
     const client = await pool.connect();
+
+    // Create the sequence if it doesn't exist
+    await client.query(`CREATE SEQUENCE IF NOT EXISTS transactions_id_seq;`);
+
     await client.query(`
       CREATE TABLE IF NOT EXISTS transactions (
         id SERIAL PRIMARY KEY,
