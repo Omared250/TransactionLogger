@@ -35,22 +35,4 @@ const initializeDb = async () => {
   }
 };
 
-// Function to execute a SQL query
-// const executeQuery = async (query, params) => {
-//     try {
-//         const client = await pool.connect();
-//         let result;
-//         if (params) {
-//             result = await client.query(query, params); // Pass the parameters here if they exist
-//         } else {
-//             result = await client.query(query); // Execute query without parameters
-//         }
-//         client.release();
-//         return result;
-//     } catch (err) {
-//         console.error('Error executing query', err.stack);
-//         throw err;
-//     }
-// };
-
 module.exports = { pool, initializeDb }
