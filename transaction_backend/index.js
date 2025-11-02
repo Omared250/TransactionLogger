@@ -10,13 +10,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 initializeDb();
 
 // --- API Endpoints --- //
-
-
-// GET /api/transactions: Fetch all transactions
-
-
-// POST /api/transactions: Create a new transaction
-
+app.use('/api', require('./routes/transactions_endpoints.js'));
 
 // Start the server
 const port = process.env.APP_PORT || 4000;

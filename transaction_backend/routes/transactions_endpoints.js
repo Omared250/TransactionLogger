@@ -3,7 +3,9 @@ const { getTransactions, createTransactions } = require('../controller/transacti
 const router = Router();
 
 // getting all transactions
-router.get('getTransactions', getTransactions);
+router.get('/getTransactions', getTransactions);
 
 // creating transactions
-router.post('createTransactions', createTransactions);
+router.post('/createTransactions', createTransactions);
+
+module.exports = router;
