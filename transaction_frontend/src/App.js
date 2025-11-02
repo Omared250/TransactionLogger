@@ -13,7 +13,7 @@ function App() {
   const fetchTransactions = useCallback(async () => {
     try {
       // 2. Use axios.get and access response.data
-      const response = await transactionsApi.get('/api/getTransactions');
+      const response = await transactionsApi.get('/getTransactions');
       setTransactions(response.data);
     } catch (e) {
       console.error("Failed to fetch transactions:", e);
@@ -33,7 +33,7 @@ function App() {
 
     try {
       // 3. Use axios.post, just pass the data object
-      await transactionsApi.post('/api/createTransactions', {
+      await transactionsApi.post('/createTransactions', {
         description,
         amount: parseFloat(amount),
       });
