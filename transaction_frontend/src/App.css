@@ -26,3 +26,31 @@
   margin-bottom: 5px;
   border-radius: 4px;
 }
+
+.App-nav {
+  background-color: #333;
+  padding: 10px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.App-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+.App-nav a:hover {
+  text-decoration: underline;
+}
+
+/* Make sure your header isn't re-applying background color */
+.App-header {
+  background-color: #282c34; /* Or whatever it was */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding: 20px;
+}
