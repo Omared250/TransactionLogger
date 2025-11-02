@@ -53,4 +53,4 @@ const initializeDb = async () => {
 //     }
 // };
 
-module.exports = { initializeDb }
+module.exports = { pool, initializeDb }

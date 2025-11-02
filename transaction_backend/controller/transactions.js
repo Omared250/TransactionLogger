@@ -1,3 +1,4 @@
+const { pool } = require("../database/config");
 
 const getTransactions = async (req, res) => {
   try {
