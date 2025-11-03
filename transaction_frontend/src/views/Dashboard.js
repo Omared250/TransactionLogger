@@ -11,7 +11,7 @@ function Dashboard() {
   // Function to fetch transactions
   const fetchTransactions = useCallback(async () => {
     try {      
-      const response = await transactionsApi.get('/getTransactions'); 
+      const response = await transactionsApi.get('/api/getTransactions'); 
       setTransactions(response.data);
     } catch (e) {
       console.error("Failed to fetch transactions:", e);
@@ -28,7 +28,7 @@ function Dashboard() {
     if (!description || !amount) return;
 
     try {
-      await transactionsApi.post('/createTransactions', { // <-- Just the endpoint
+      await transactionsApi.post('/api/createTransactions', { // <-- Just the endpoint
         description,
         amount: parseFloat(amount),
       });

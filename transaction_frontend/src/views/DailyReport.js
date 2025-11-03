@@ -20,7 +20,7 @@ function DailyReport() {
 
   const fetchAllTransactions = useCallback(async () => {
     try {
-      const response = await transactionsApi.get('/getTransactions');
+      const response = await transactionsApi.get('/api/getTransactions');
       const allTransactions = response.data;
       
       // Filter for current month
