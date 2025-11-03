@@ -1,0 +1,22 @@
+# --- Secret for all sensitive data ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+stringData:
+  # Replace these values with your actual credentials
+  POSTGRES_USER: "example_user"
+  POSTGRES_PASSWORD: "example_password"
+  POSTGRES_DB: "example_db"
+
+---
+# --- ConfigMap for all non-sensitive config ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  # This is the K8s Service name for our database
+  POSTGRES_HOST: "postgres-service"
+  POSTGRES_PORT: "5432"
+  APP_PORT: "4000"

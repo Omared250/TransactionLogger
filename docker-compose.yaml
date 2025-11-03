@@ -1,0 +1,52 @@
+services:
+  # 1. The PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      # Expose port 5432 to your host machine for debugging
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      # Persist database data even if the container is removed
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. The Backend Node.js/Express App
+  backend:
+    build:
+      context: ./transaction_backend/ # Path to your backend's Dockerfile
+    restart: always
+    ports:
+      # Expose port 4000 to your host machine
+      - "4000:4000"
+    environment:
+      # Read variables from your .env file
+      APP_PORT: ${APP_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      # --- THIS IS THE KEY ---
+      # 'db' is the service name of our postgres container
+      POSTGRES_HOST: db 
+    depends_on:
+      - db # Wait for the 'db' service to be ready
+
+  # 3. The Frontend React/Nginx App
+  frontend:
+    build:
+      context: ./transaction_frontend # Path to your frontend's Dockerfile
+    restart: always
+    ports:
+      # Expose port 80 to your host machine
+      # This is the port your users will access
+      - "80:80"
+    depends_on:
+      - backend # Wait for the backend to be ready
+
+# Define the named volume for data persistence
+volumes:
+  postgres_data:

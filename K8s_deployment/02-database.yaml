@@ -1,0 +1,98 @@
+# --- Persistent Volume for Database Storage ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce # This volume can only be used by one pod at a time
+  resources:
+    requests:
+      storage: 1Gi # Ask for 1 Gigabyte of storage
+
+---
+# --- Deployment to run the Postgres pod ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - postgres
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - postgres
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          env:
+            # Load credentials from our Secret
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: POSTGRES_DB
+          volumeMounts:
+            # Mount the persistent volume to the data directory
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc # Use the PVC we defined above
+
+---
+# --- Service to give Postgres a stable network name ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service # <-- This is the name we use for POSTGRES_HOST
+spec:
+  selector:
+    app: postgres # Finds pods with the "app: postgres" label
+  ports:
+    - port: 5432
+      targetPort: 5432
