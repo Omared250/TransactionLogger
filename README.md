@@ -51,6 +51,40 @@ docker build -t my-frontend:latest .
 docker-compose up -d
 ```
 
+### Managing Docker Compose Services
+
+#### Starting and Stopping Containers
+
+To start your application:
+```bash
+# Start in foreground (with logs)
+docker-compose up
+
+# Start in background (detached mode)
+docker-compose up -d
+
+# View logs while running in detached mode
+docker-compose logs -f
+```
+
+To stop your application:
+```bash
+# Pause containers (keeps containers, volumes, and networks)
+docker-compose stop
+
+# Complete cleanup (removes containers, networks)
+docker-compose down
+
+# Complete cleanup including volumes (⚠️ This will delete your database data)
+docker-compose down -v
+```
+
+The difference between `stop` and `down`:
+- `stop`: Pauses containers (like putting your computer to sleep)
+- `down`: Removes containers and networks (like shutting down your computer)
+
+Note: Using `down` is safe for your data unless you add the `-v` flag.
+
 ## Kubernetes Deployment with Minikube
 
 1. Start Minikube:
@@ -163,3 +197,44 @@ Required variables:
 3. Commit your changes
 4. Push to the branch
 5. Create a new Pull Request
+
+## Cleanup Procedures
+
+### Docker Compose Cleanup
+To completely stop and remove all Docker Compose resources:
+```bash
+# Stop and remove containers, networks (preserves volumes)
+docker-compose down
+
+# To also remove volumes (⚠️ This will delete your database data)
+docker-compose down -v
+```
+
+### Minikube Cleanup
+When you're done with Minikube, follow these steps:
+
+1. Stop the minikube tunnel process:
+```bash
+# Press Ctrl+C in the terminal running the tunnel
+```
+
+2. Delete all Kubernetes resources:
+```bash
+kubectl delete -f .
+```
+
+3. Stop Minikube:
+```bash
+minikube stop
+```
+
+4. Reset Docker environment:
+```bash
+# Un-set the Docker environment variable to use your local Docker again
+eval $(minikube -p minikube docker-env -u)
+```
+
+Optional: To completely remove Minikube and reclaim disk space:
+```bash
+minikube delete
+```
