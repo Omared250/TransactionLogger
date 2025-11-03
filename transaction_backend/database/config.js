@@ -23,6 +23,7 @@ const initializeDb = async () => {
         id SERIAL PRIMARY KEY,
         description VARCHAR(255) NOT NULL,
         amount NUMERIC(10, 2) NOT NULL,
+        user_id UUID NOT NULL, 
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
