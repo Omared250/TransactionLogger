@@ -38,22 +38,6 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
-          livenessProbe:
-            exec:
-              command:
-                - pg_isready
-                - -U
-                - postgres
-            initialDelaySeconds: 30
-            periodSeconds: 10
-          readinessProbe:
-            exec:
-              command:
-                - pg_isready
-                - -U
-                - postgres
-            initialDelaySeconds: 5
-            periodSeconds: 5
           env:
             # Load credentials from our Secret
             - name: POSTGRES_USER
@@ -75,11 +59,6 @@ spec:
             # Mount the persistent volume to the data directory
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 999
-            allowPrivilegeEscalation: false
-      volumes:
         - name: postgres-storage
           persistentVolumeClaim:
             claimName: postgres-pvc # Use the PVC we defined above

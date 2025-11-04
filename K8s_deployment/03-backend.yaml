@@ -25,18 +25,6 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "200m"
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 4000
-            initialDelaySeconds: 15
-            periodSeconds: 20
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 4000
-            initialDelaySeconds: 5
-            periodSeconds: 10
           env:
             # Load all variables from our ConfigMap
             - name: POSTGRES_HOST
@@ -70,10 +58,6 @@ spec:
                 secretKeyRef:
                   name: app-secrets
                   key: POSTGRES_DB
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service

@@ -16,6 +16,7 @@ dist-ssr
 # Environment and configuration
 .env
 K8s_deployment/01-config.yaml
+K8s_deployment/instrumentation.yaml
 
 # Editor directories and files
 .vscode/*
