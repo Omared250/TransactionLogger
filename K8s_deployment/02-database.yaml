@@ -59,6 +59,7 @@ spec:
             # Mount the persistent volume to the data directory
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
+      volumes:
         - name: postgres-storage
           persistentVolumeClaim:
             claimName: postgres-pvc # Use the PVC we defined above
